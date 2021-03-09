@@ -7,7 +7,7 @@ let gWindowState: boolean = true;
 
 export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.executeCommand("extension.initTimer");
-	// vscode.window.registerWebviewPanelSerializer('LTTMainPage', new VSTimeTrckerSerializer());
+	// vscode.window.registerWebviewPanelSerializer('LTT-sMainPage', new VSTimeTrckerSerializer());
 
 	vscode.window.onDidChangeActiveTextEditor((textEditor: any) => {
 		currentLang = textEditor._documentData._languageId;
@@ -45,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 	colors = JSON.parse(fs.readFileSync(colorPath, 'utf8'));
 
 	const timer = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-	initItem(timer, "LTT $(clock)", "View stats", "extension.getTime");
+	initItem(timer, "LTT-s $(clock)", "View stats", "extension.getTime");
 
 	const pause = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
 	initItem(pause, "ll", "Pause/Start timer", "extension.updateStatusTimer");
@@ -54,10 +54,10 @@ export function activate(context: vscode.ExtensionContext) {
 	initFile(filePath, projectName, context, fullCurrentDate);
 
 	let initTimer = vscode.commands.registerCommand('extension.initTimer', () => {
-		vscode.window.showInformationMessage('Timer started!');
+		// vscode.window.showInformationMessage('Timer started!');
 		if (timerInterval) clearInterval(timerInterval);
 		timerInterval = setInterval(() => {
-			timer.text = "LTT $(clock) " + secondsToReadableTime(seconds);
+			timer.text = "LTT-s $(clock) " + secondsToReadableTime(seconds);
 			let jsonTime = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 			let currentProject;
 			for (var i in jsonTime.projects) {
@@ -112,11 +112,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 			seconds++;
 			if (seconds % 1800 === 0) {
-				vscode.window.showInformationMessage('You should take a break!', 'Break!').then(() => {
-					vscode.commands.executeCommand("extension.updateStatusTimer");
-				});
+				// vscode.window.showInformationMessage('You should take a break!', 'Break!').then(() => {
+				// 	vscode.commands.executeCommand("extension.updateStatusTimer");
+				// });
 			}
-		}, 1000);
+		},
+			1000);
 	});
 
 	let getTime = vscode.commands.registerCommand('extension.getTime', () => {
@@ -138,7 +139,7 @@ export function activate(context: vscode.ExtensionContext) {
 			currentPanel.reveal(columnToShowIn);
 		} else {
 			const panel = vscode.window.createWebviewPanel(
-				'LTTMainPage',
+				'LTT-sMainPage',
 				'Local Time Tracker Stats',
 				vscode.ViewColumn.One,
 				{
@@ -189,7 +190,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let pauseTimer = vscode.commands.registerCommand('extension.updateStatusTimer', () => {
 		if (pause.text === "ll") {
-			vscode.window.showInformationMessage('Timer paused!');
+			// vscode.window.showInformationMessage('Timer paused!');
 			pause.text = "$(triangle-right)";
 			clearInterval(timerInterval);
 			let jsonTime = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -197,7 +198,7 @@ export function activate(context: vscode.ExtensionContext) {
 		} else {
 			pause.text = "ll";
 			vscode.commands.executeCommand("extension.initTimer");
-			timer.text = "LTT $(clock) " + secondsToReadableTime(seconds);
+			timer.text = "LTT-s $(clock) " + secondsToReadableTime(seconds);
 			let jsonTime = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 			for (var i in jsonTime.projects) {
 				if (jsonTime.projects[i].projectName == projectName) {
@@ -217,7 +218,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	let pauseTimerAuto = vscode.commands.registerCommand('extension.updateStatusTimerAuto', () => {
 		if (!gWindowState) {
-			vscode.window.showInformationMessage('Timer paused!');
+			// vscode.window.showInformationMessage('Timer paused!');
 			pause.text = "$(triangle-right)";
 			clearInterval(timerInterval);
 			let jsonTime = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -230,7 +231,7 @@ export function activate(context: vscode.ExtensionContext) {
 		} else {
 			pause.text = "ll";
 			vscode.commands.executeCommand("extension.initTimer");
-			timer.text = "LTT $(clock) " + secondsToReadableTime(seconds);
+			timer.text = "LTT-s $(clock) " + secondsToReadableTime(seconds);
 			let jsonTime = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 			for (var i in jsonTime.projects) {
 				if (jsonTime.projects[i].projectName == projectName) {
@@ -397,7 +398,7 @@ function getWebviewContent(jsonTime: any, timeProjects: any, canvasJS: any, proj
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <title>${projectName}</title>
 	  <style>
-			hr { 
+			hr {
 				display: block;
 				margin-top: 2.5em;
 				margin-bottom: 0.5em;
@@ -419,17 +420,17 @@ function getWebviewContent(jsonTime: any, timeProjects: any, canvasJS: any, proj
 				font-weight: 100;
 			}
 			#chartContainer{
-				height: 300px; 
-				max-height: 300px; 
+				height: 300px;
+				max-height: 300px;
 				width: 100%;
 			}
 			.ul-languages{
 				list-style: none;
 			}
 			.ul-languages div{
-				width:13px; 
-				height:13px; 
-				display: inline-block; 
+				width:13px;
+				height:13px;
+				display: inline-block;
 				margin: 0 5px 0 0;
 			}
 			.ul-languages h3{
@@ -522,7 +523,7 @@ function getWebviewContent(jsonTime: any, timeProjects: any, canvasJS: any, proj
 						break;
 				}
 			});
-		</script>		
+		</script>
   </body>
   </html>`;
 }

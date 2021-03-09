@@ -1,7 +1,6 @@
-# Local Time Tracker Extension
+# Local Time Tracker Extension - silent
 
 Is a simple VS Code extension to track the time you are coding
-
 
 ## Features
 
@@ -17,7 +16,8 @@ Is a simple VS Code extension to track the time you are coding
 - You can check out the time spent on a chart
     > There is a view built int with charts to see you averacge language use
 
-
+- No annoying notifications
+    > No annowing notifactions. Runs silently in the background.
 
 ## Future features
 
@@ -26,8 +26,6 @@ Is a simple VS Code extension to track the time you are coding
 - [ ] Improve **Stats view** design
 
 - [ ] Real time refresh on **Stats view**
-
-
 
 ## Known issues
 
